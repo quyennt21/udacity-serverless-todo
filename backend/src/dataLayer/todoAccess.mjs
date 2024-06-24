@@ -12,32 +12,64 @@ export class TodoAccess {
     this.dynamoDbClient = DynamoDBDocument.from(this.documentClient)
   }
 
+  async getTodoById(todoId) {
+    return await this.dynamoDbClient.get({
+      TableName: this.todoTable,
+      Key: {
+        todoId: todoId
+      }
+    })
+  }
+
   async getListTodoByUserId(userId) {
     const result = await this.dynamoDbClient.query({
       TableName: this.todoTable,
       KeyConditionExpression: 'userId = :userId',
       ExpressionAttributeValues: {
-        ':groupId': userId
+        ':userId': userId
       },
       ScanIndexForward: false
     })
-  
     return result.Items
   }
 
-  async createTodo(data, userId) {
-    await this.dynamoDbClient.put({
+  async createTodo(data) {
+    const result = await this.dynamoDbClient.put({
       TableName: this.todoTable,
       Item: data
     })
-    return data
+    return result.Attributes
   }
 
-  async updateTodo(data, userId) {
-
+  async updateTodo(data, todoId, userId) {
+    const result = await this.dynamoDbClient.update({
+      TableName: this.todoTable,
+      Key: {
+        userId: userId,
+        todoId: todoId
+      },
+      UpdateExpression: 'set #n = :name, dueDate = :dueDate, done = :done',
+      ExpressionAttributeValues: {
+        ':name': data.name,
+        ':dueDate': data.dueDate,
+        ':done': data.done
+      },
+      ExpressionAttributeNames: {
+        '#n': 'name'
+      },
+      ReturnValues: 'UPDATED_NEW'
+    })
+    return result?.Attributes
   }
 
   async deleteTodo(todoId, userId) {
-
+    const result = await this.dynamoDbClient.delete({
+      TableName: this.todoTable,
+      Key: {
+        todoId: todoId,
+        userId: userId
+      }
+    })
+    return result.Attributes
   }
 }

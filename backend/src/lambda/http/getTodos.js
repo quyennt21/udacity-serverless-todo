@@ -25,6 +25,8 @@ export const handler = middy()
       headers: {
         'Access-Control-Allow-Origin': '*'
       },
-      body: JSON.stringify(results)
+      body: JSON.stringify({
+        items: results
+      })
     }
   })

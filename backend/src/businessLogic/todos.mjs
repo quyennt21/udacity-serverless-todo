@@ -18,6 +18,10 @@ export async function createTodo(createTodoRequest, userId) {
   })
 }
 
-export async function updateTodo(todoId, userId) {}
+export async function updateTodo(payload, todoId, userId) {
+  return await todoAccess.updateTodo(payload, todoId, userId)
+}
 
-export async function deleteTodo(todoId, userId) {}
+export async function deleteTodo(todoId, userId) {
+  return await todoAccess.deleteTodo(todoId, userId)
+}

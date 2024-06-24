@@ -20,9 +20,15 @@ export const handler = middy()
     const authorization = event.headers.Authorization
     const userId = getUserId(authorization)
 
-    await deleteTodo(todoId, userId)
+    const result = await deleteTodo(todoId, userId)
 
     return {
-      statusCode: 204
+      statusCode: 204,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        item: result
+      })
     }
   })
