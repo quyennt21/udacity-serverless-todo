@@ -12,10 +12,16 @@ export class TodoAccess {
     this.dynamoDbClient = DynamoDBDocument.from(this.documentClient)
   }
 
-  async getListTodo(userId) {
-    const result = await this.dynamoDbClient.scan({
-      TableName: this.todoTable
+  async getListTodoByUserId(userId) {
+    const result = await this.dynamoDbClient.query({
+      TableName: this.todoTable,
+      KeyConditionExpression: 'userId = :userId',
+      ExpressionAttributeValues: {
+        ':groupId': userId
+      },
+      ScanIndexForward: false
     })
+  
     return result.Items
   }
 
