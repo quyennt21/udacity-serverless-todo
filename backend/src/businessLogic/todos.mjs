@@ -45,7 +45,7 @@ export async function generateUploadUrl(todoId, userId) {
     }
   }
 
-  const imageId = uuid()
+  const imageId = uuid.v4()
   const attachmentUrl = `https://${bucketName}.s3.amazonaws.com/${imageId}`
 
   await todoAccess.updateAttachmentTodo(attachmentUrl, todoId, userId)

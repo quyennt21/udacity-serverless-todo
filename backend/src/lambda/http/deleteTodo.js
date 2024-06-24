@@ -20,6 +20,8 @@ export const handler = middy()
     const authorization = event.headers.Authorization
     const userId = getUserId(authorization)
 
+    // remove s3 object
+    
     const result = await deleteTodo(todoId, userId)
 
     return {
