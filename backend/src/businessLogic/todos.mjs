@@ -11,7 +11,7 @@ export async function getListTodoByUserId(userId) {
 export async function createTodo(createTodoRequest, userId) {
   const itemId = uuid.v4()
   return await todoAccess.createTodo({
-    id: itemId,
+    todoId: itemId,
     userId: userId,
     name: createTodoRequest.name,
     dueDate: createTodoRequest.dueDate
