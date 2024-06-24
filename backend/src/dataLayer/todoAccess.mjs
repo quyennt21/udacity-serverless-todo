@@ -12,14 +12,15 @@ export class TodoAccess {
     this.dynamoDbClient = DynamoDBDocument.from(this.documentClient)
   }
 
-  async getTodoById(todoId, userId) {
-    return await this.dynamoDbClient.get({
+  async totoExisted(todoId, userId) {
+    const result = await this.dynamoDbClient.get({
       TableName: this.todoTable,
       Key: {
         todoId: todoId,
         userId: userId
       }
     })
+    return !!result.Item
   }
 
   async getListTodoByUserId(userId) {
@@ -62,6 +63,23 @@ export class TodoAccess {
     })
     return result?.Attributes
   }
+
+  async updateAttachmentTodo(attachmentUrl, todoId, userId) {
+    const result = await this.dynamoDbClient.update({
+      TableName: this.todoTable,
+      Key: {
+        userId: userId,
+        todoId: todoId
+      },
+      UpdateExpression: 'set attachmentUrl = :attachmentUrl',
+      ExpressionAttributeValues: {
+        ':attachmentUrl': attachmentUrl,
+      },
+      ReturnValues: 'UPDATED_NEW'
+    })
+    return result?.Attributes
+  }
+
 
   async deleteTodo(todoId, userId) {
     const result = await this.dynamoDbClient.delete({
