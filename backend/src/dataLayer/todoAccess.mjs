@@ -35,11 +35,11 @@ export class TodoAccess {
   }
 
   async createTodo(data) {
-    const result = await this.dynamoDbClient.put({
+    await this.dynamoDbClient.put({
       TableName: this.todoTable,
       Item: data
     })
-    return result.Attributes
+    return data
   }
 
   async updateTodo(data, todoId, userId) {

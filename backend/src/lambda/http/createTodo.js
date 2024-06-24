@@ -14,7 +14,6 @@ export const handler = middy()
   )
   .handler(async (event) => {
     console.log('Processing event: ', event)
-
     const newTodo = JSON.parse(event.body)
 
     const authorization = event.headers.Authorization

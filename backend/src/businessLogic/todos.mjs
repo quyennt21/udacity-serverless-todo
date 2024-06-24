@@ -25,3 +25,17 @@ export async function updateTodo(payload, todoId, userId) {
 export async function deleteTodo(todoId, userId) {
   return await todoAccess.deleteTodo(todoId, userId)
 }
+
+export async function generateUrl(todoId) {
+  if (!validGroupId) {
+    return {
+      statusCode: 404,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        error: 'Group does not exist'
+      })
+    }
+  }
+}
