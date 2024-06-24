@@ -19,7 +19,7 @@ provider:
     SIGNED_URL_EXPIRATION: 300
 
   logs:
-    restApi: true
+    httpApi: true
 
   iam:
     role:
@@ -40,6 +40,12 @@ provider:
             - s3:PutObject
             - s3:GetObject
           Resource: arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}/*
+        - Effect: "Allow"
+          Action:
+            - "logs:CreateLogGroup"
+            - "logs:CreateLogStream"
+            - "logs:PutLogEvents"
+          Resource: "arn:aws:logs:*:*:*"
         - Effect: Allow
           Action: 'cloudwatch:PutMetricData'
           Resource: '*'
