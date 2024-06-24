@@ -12,11 +12,12 @@ export class TodoAccess {
     this.dynamoDbClient = DynamoDBDocument.from(this.documentClient)
   }
 
-  async getTodoById(todoId) {
+  async getTodoById(todoId, userId) {
     return await this.dynamoDbClient.get({
       TableName: this.todoTable,
       Key: {
-        todoId: todoId
+        todoId: todoId,
+        userId: userId
       }
     })
   }
